@@ -53,6 +53,7 @@ class _ViewTaskState extends State<ViewTask>
     String date = taskData['taskAssignDate'] ?? 'N/A';
     String time = taskData['taskAssignTime'] ?? 'N/A';
     String toDoTask = taskData['toDoTask'] ?? 'N/A';
+    String status = taskData['status'] ?? 'N/A';
 
     return GestureDetector(
       onTap: () {
@@ -68,6 +69,7 @@ class _ViewTaskState extends State<ViewTask>
           'toDoTask': taskData['toDoTask'] ?? 'N/A',
           'taskId': taskData['taskId'] ?? 'N/A',
           'userId': taskData['userId'] ?? 'N/A',
+          'status': taskData['status'] ?? 'N/A',
           'taskAssignDate': taskData['taskAssignDate'] ?? 'N/A',
           'taskAssignTime': taskData['taskAssignTime'] ?? 'N/A',
           'taskDeadlineDate': taskData['taskDeadlineDate'] ?? 'N/A',
@@ -148,6 +150,28 @@ class _ViewTaskState extends State<ViewTask>
                     Expanded(
                       child: Text(
                         'Time: $time',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54,
+                          fontSize: screenWidth * 0.04,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.work,
+                      size: screenWidth * 0.04,
+                      color: const Color(0xffFF0000),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Status: $status',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,

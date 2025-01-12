@@ -90,6 +90,7 @@ class TaskProvider with ChangeNotifier {
         'taskDeadlineDate': _deadlineDateController.text,
         'taskDeadlineTime': _deadlineTimeController.text,
         'createdAt': FieldValue.serverTimestamp(),
+        'status': 'In-Completed',
         'userId': currentUser.uid,
       };
 

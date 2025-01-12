@@ -50,4 +50,28 @@ class TaskViewProvider with ChangeNotifier {
       throw 'Failed to update task: $e';
     }
   }
+
+  Future<void> updateTaskStatus(
+      String taskId, String newTask, BuildContext context) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser == null) {
+        throw 'User not logged in';
+      }
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('tasks')
+          .doc(taskId)
+          .update({
+        'status': 'Completed',
+      });
+      await Provider.of<ViewTaskProvider>(context, listen: false).fetchTasks();
+
+      notifyListeners();
+    } catch (e) {
+      throw 'Failed to update task: $e';
+    }
+  }
 }

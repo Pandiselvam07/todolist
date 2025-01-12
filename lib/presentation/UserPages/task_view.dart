@@ -147,6 +147,53 @@ class _TaskViewPageState extends State<TaskViewPage>
     }
   }
 
+  void updateTaskStatus() async {
+    var taskId = widget.userTasks['taskId'];
+
+    if (taskId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Task ID is missing')),
+      );
+      return;
+    }
+
+    try {
+      await Provider.of<TaskViewProvider>(context, listen: false)
+          .updateTaskStatus(taskId, toDoTaskController.text, context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check_circle, color: Colors.white, size: 24),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'Task Updated successfully!',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update task: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -244,7 +291,7 @@ class _TaskViewPageState extends State<TaskViewPage>
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.015),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -331,6 +378,34 @@ class _TaskViewPageState extends State<TaskViewPage>
                               ],
                             ),
                           ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.04),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: screenWidth * 0.3,
+                          height: screenHeight * 0.05,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              updateTaskStatus();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green.shade500,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            child: Text(
+                              'Completed',
+                              style: TextStyle(
+                                color: Colors.white, // Text color
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
